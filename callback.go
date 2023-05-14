@@ -22,6 +22,9 @@ type Callback struct {
 	// sent via the bot in inline mode.
 	MessageID string `json:"inline_message_id"`
 
+	// ChatInstanceID
+	ChatInstanceID string `json:"chat_instance"` // ME
+
 	// Data associated with the callback button. Be aware that
 	// a bad client can send arbitrary data in this field.
 	Data string `json:"data"`

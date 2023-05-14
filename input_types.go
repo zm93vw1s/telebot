@@ -71,3 +71,40 @@ type InputContactMessageContent struct {
 func (input *InputContactMessageContent) IsInputMessageContent() bool {
 	return true
 }
+
+// InputInvoiceMessageContent
+// ME 27/07/2022
+type InputInvoiceMessageContent struct {
+	Title               string         `json:"title"`
+	Description         string         `json:"description"`
+	Payload             string         `json:"payload"`
+	ProviderToken       string         `json:"provider_token"`
+	Currency            string         `json:"currency"`
+	Prices              []LabeledPrice `json:"prices"`
+	MaxTipAmount        int            `json:"max_tip_amount,omitempty"`
+	SuggestedTipAmounts []int          `json:"suggested_tip_amounts,omitempty"`
+	ProviderData        string         `json:"provider_data,omitempty"`
+
+	PhotoURL    string `json:"photo_url,omitempty"`
+	PhotoSize   int    `json:"photo_size,omitempty"`
+	PhotoWidth  int    `json:"photo_width,omitempty"`
+	PhotoHeight int    `json:"photo_height,omitempty"`
+
+	NeedName            bool `json:"need_name,omitempty"`
+	NeedPhoneNumber     bool `json:"need_phone_number,omitempty"`
+	NeedEmail           bool `json:"need_email,omitempty"`
+	NeedShippingAddress bool `json:"need_shipping_address,omitempty"`
+	SendPhoneNumber     bool `json:"send_phone_number_to_provider,omitempty"`
+	SendEmail           bool `json:"send_email_to_provider,omitempty"`
+	Flexible            bool `json:"is_flexible,omitempty"`
+}
+
+type LabeledPrice struct {
+	Label  string `json:"label"`
+	Amount int    `json:"amount"`
+}
+
+// ME 27/07/2022
+func (input *InputInvoiceMessageContent) IsInputMessageContent() bool {
+	return true
+}

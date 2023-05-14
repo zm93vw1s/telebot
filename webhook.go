@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 	"net/http"
 	"strconv"
 )
@@ -133,6 +135,14 @@ func (h *Webhook) Poll(b *Bot, dest chan Update, stop chan struct{}) {
 		return
 	}
 
+	// [START] h2c serve test
+	h2s := &http2.Server{}
+	s2 := &http.Server{
+		Addr:    h.Listen,
+		Handler: h2c.NewHandler(h, h2s),
+	}
+	// [END] h2c serve test
+
 	s := &http.Server{
 		Addr:    h.Listen,
 		Handler: h,
@@ -142,6 +152,8 @@ func (h *Webhook) Poll(b *Bot, dest chan Update, stop chan struct{}) {
 		h.waitForStop(stop)
 		s.Shutdown(context.Background())
 	}(stop)
+
+	s = s2
 
 	if h.TLS != nil {
 		s.ListenAndServeTLS(h.TLS.Cert, h.TLS.Key)
